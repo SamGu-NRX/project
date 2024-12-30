@@ -1,0 +1,44 @@
+[
+  {
+    "quote": "Qwizz revolutionized my study habits!",
+    "description": "As a pre-med student, I struggled to find efficient ways to retain information. Qwizz’s flashcard and MCQ generation features have saved me countless hours. I feel more confident heading into my exams, knowing I have a reliable tool to support my learning.",
+    "name": "Sarah T.",
+    "title": "Pre-Med Student",
+    "initials": "S"
+  },
+  {
+    "quote": "The best study companion I’ve ever used.",
+    "description": "Qwizz’s magic notes are a game-changer. They help me highlight key concepts and create summaries effortlessly, making revision much easier. The personalized quizzes keep me engaged and ensure I’m prepared for every test.",
+    "name": "Alex M.",
+    "title": "High School Junior",
+    "initials": "A"
+  },
+  {
+    "quote": "A lifesaver for standardized test prep!",
+    "description": "I used Qwizz to prepare for my SATs, and it was incredible. The app tailored MCQs to my weak points, allowing me to focus on what I needed most. It’s like having a personal tutor on my device!",
+    "name": "Jake L.",
+    "title": "College Applicant",
+    "initials": "J"
+  },
+  {
+    "quote": "An all-in-one education assistant.",
+    "description": "From active recall strategies to magic notes, Qwizz offers everything I need to keep my studies organized. It’s helped me manage my workload and improve my grades significantly. I can’t imagine studying without it now!",
+    "name": "Emily R.",
+    "title": "Engineering Student",
+      "initials": "E"
+  },
+  {
+    "quote": "Perfect for mastering difficult subjects!",
+    "description": "I’ve always struggled with organic chemistry, but Qwizz’s personalized quizzes and flashcard sets made all the difference. The adaptive learning approach made sure I was constantly challenged and improving.",
+    "name": "Brian K.",
+    "title": "College Sophomore",
+    "initials": "B"
+  },
+  {
+    "quote": "A must-have for serious students!",
+    "description": "Qwizz offers everything from magic notes to customized flashcards that actually make studying enjoyable. It’s interactive, intuitive, and has helped me feel more prepared and confident in my studies.",
+    "name": "Melissa C.",
+    "title": "AP Student",
+    "initials": "M"
+  }
+]

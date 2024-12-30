@@ -1,0 +1,276 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+////////////////////////////////////////////
+// ENUMS
+////////////////////////////////////////////
+enum Role {
+  student
+  teacher
+  admin
+}
+
+enum AssignmentType {
+  multiple_choice
+  file_upload
+  mixed
+}
+
+enum SubmissionStatus {
+  pending
+  graded
+  in_review
+}
+
+////////////////////////////////////////////
+// MODEL: User
+////////////////////////////////////////////
+model User {
+  id              String   @id @default(uuid()) @db.Uuid
+  email           String   @unique
+  passwordHash    String?  // optional if using external Supabase Auth
+  role            Role
+  fullName        String
+  profileImageUrl String?
+  phoneNumber     String?
+  isActive        Boolean  @default(true)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  // RELATIONS
+  Submissions          Submission[]          // 1-to-many
+  ProgressRecords      UserSessionsProgress[] 
+  Certificates         Certificate[]         
+  ActivityLogs         ActivityLog[]
+
+  @@map("users")  // If you want the table name to be "users"
+}
+
+////////////////////////////////////////////
+// MODEL: Course
+////////////////////////////////////////////
+model Course {
+  id                String   @id @default(uuid()) @db.Uuid
+  title             String
+  description       String?
+  thumbnailImageUrl String?
+  startDate         DateTime?
+  endDate           DateTime?
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  // RELATIONS
+  Sessions      Session[]
+  Announcements Announcement[]
+  Certificates  Certificate[]
+
+  @@map("courses")
+}
+
+////////////////////////////////////////////
+// MODEL: Session (Lecture)
+////////////////////////////////////////////
+model Session {
+  id                   String   @id @default(uuid()) @db.Uuid
+  courseId             String   @db.Uuid
+  title                String
+  description          String?
+  videoUrl             String?
+  sequenceOrder        Int      @default(1) // Enforce >0 in your app or custom SQL
+  isLockedByDefault    Boolean  @default(true)
+  createdAt            DateTime @default(now())
+  updatedAt            DateTime @updatedAt
+
+  // RELATIONS
+  Course               Course          @relation(fields: [courseId], references: [id], onDelete: Restrict)
+  Assignments          Assignment[]
+  ProgressRecords      UserSessionsProgress[]
+
+  @@map("sessions")
+}
+
+////////////////////////////////////////////
+// MODEL: UserSessionsProgress
+////////////////////////////////////////////
+model UserSessionsProgress {
+  id           String    @id @default(uuid()) @db.Uuid
+  studentId    String    @db.Uuid
+  sessionId    String    @db.Uuid
+  isCompleted  Boolean   @default(false)
+  completedAt  DateTime?
+
+  // RELATIONS
+  Student      User      @relation(fields: [studentId], references: [id], onDelete: Restrict)
+  Session      Session   @relation(fields: [sessionId], references: [id], onDelete: Restrict)
+
+  // CONSTRAINTS
+  @@unique([studentId, sessionId]) // one progress record per (student, session)
+
+  @@map("user_sessions_progress")
+}
+
+////////////////////////////////////////////
+// MODEL: Assignment
+////////////////////////////////////////////
+model Assignment {
+  id              String          @id @default(uuid()) @db.Uuid
+  sessionId       String          @db.Uuid
+  assignmentType  AssignmentType
+  title           String
+  instructions    String?
+  dueDate         DateTime?
+  maxScore        Int             @default(100)
+  isPublished     Boolean         @default(false)
+  requiresReview  Boolean         @default(true)
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime        @updatedAt
+
+  // RELATIONS
+  Session         Session         @relation(fields: [sessionId], references: [id], onDelete: Restrict)
+  Submissions     Submission[]
+  Questions       AssignmentQuestion[]
+
+  @@map("assignments")
+}
+
+////////////////////////////////////////////
+// MODEL: AssignmentQuestion (Optional)
+////////////////////////////////////////////
+model AssignmentQuestion {
+  id             String                   @id @default(uuid()) @db.Uuid
+  assignmentId   String                   @db.Uuid
+  questionText   String
+  questionOrder  Int                      @default(1)
+  createdAt      DateTime                 @default(now())
+  updatedAt      DateTime                 @updatedAt
+
+  // RELATIONS
+  Assignment     Assignment               @relation(fields: [assignmentId], references: [id], onDelete: Restrict)
+  Options        AssignmentQuestionOption[]
+  SubmissionAnswers SubmissionAnswers[]
+
+  @@map("assignment_questions")
+}
+
+////////////////////////////////////////////
+// MODEL: AssignmentQuestionOption (Optional)
+////////////////////////////////////////////
+model AssignmentQuestionOption {
+  id          String   @id @default(uuid()) @db.Uuid
+  questionId  String    @db.Uuid
+  optionText  String
+  isCorrect   Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // RELATIONS
+  Question  AssignmentQuestion @relation(fields: [questionId], references: [id], onDelete: Restrict)
+  SubmissionAnswers SubmissionAnswers[] // Add this line
+
+  @@unique([questionId, optionText])
+  @@map("assignment_question_options")
+}
+
+////////////////////////////////////////////
+// MODEL: Submission
+////////////////////////////////////////////
+model Submission {
+  id                    String           @id @default(uuid()) @db.Uuid
+  assignmentId          String           @db.Uuid
+  studentId             String           @db.Uuid
+  submittedAt           DateTime?
+  fileUrl               String?
+  status                SubmissionStatus @default(pending)
+  grade                 Float?
+  feedback              String?
+  multipleChoiceAnswers Json?
+  createdAt             DateTime         @default(now())
+  updatedAt             DateTime         @updatedAt
+
+  // RELATIONS
+  Assignment      Assignment  @relation(fields: [assignmentId], references: [id], onDelete: Restrict)
+  Student         User        @relation(fields: [studentId], references: [id], onDelete: Restrict)
+  SubmissionAnswers SubmissionAnswers[]
+
+  @@map("submissions")
+}
+
+////////////////////////////////////////////
+// MODEL: SubmissionAnswers (Optional)
+////////////////////////////////////////////
+model SubmissionAnswers {
+  id               String   @id @default(uuid()) @db.Uuid
+  submissionId     String   @db.Uuid
+  questionId       String   @db.Uuid
+  selectedOptionId String?  @db.Uuid
+  scoreEarned      Float?
+
+  // RELATIONS
+  Submission       Submission             @relation(fields: [submissionId], references: [id], onDelete: Restrict)
+  Question         AssignmentQuestion     @relation(fields: [questionId], references: [id], onDelete: Restrict)
+  SelectedOption   AssignmentQuestionOption? @relation(fields: [selectedOptionId], references: [id], onDelete: Restrict)
+
+  @@map("submission_answers")
+}
+
+////////////////////////////////////////////
+// MODEL: Certificate
+////////////////////////////////////////////
+model Certificate {
+  id                  String   @id @default(uuid()) @db.Uuid
+  studentId           String   @db.Uuid
+  courseId            String   @db.Uuid
+  certificateImageUrl String?
+  issuedAt            DateTime @default(now())
+  gradeAtCompletion   Float?
+  createdAt           DateTime @default(now())
+
+  // RELATIONS
+  Student    User   @relation(fields: [studentId], references: [id], onDelete: Restrict)
+  Course     Course @relation(fields: [courseId], references: [id], onDelete: Restrict)
+
+  // CONSTRAINTS
+  @@unique([studentId, courseId])
+
+  @@map("certificates")
+}
+
+////////////////////////////////////////////
+// MODEL: Announcement (Optional)
+////////////////////////////////////////////
+model Announcement {
+  id         String   @id @default(uuid()) @db.Uuid
+  courseId   String   @db.Uuid
+  title      String
+  body       String
+  postedAt   DateTime @default(now())
+
+  // RELATIONS
+  Course     Course   @relation(fields: [courseId], references: [id], onDelete: Restrict)
+
+  @@map("announcements")
+}
+
+////////////////////////////////////////////
+// MODEL: ActivityLog (Optional)
+////////////////////////////////////////////
+model ActivityLog {
+  id          String   @id @default(uuid()) @db.Uuid  
+  userId      String?  @db.Uuid
+  actionType  String
+  details     String?
+  createdAt   DateTime @default(now())
+
+  // RELATIONS
+  User        User?    @relation(fields: [userId], references: [id], onDelete: Restrict)
+
+  @@index([userId, createdAt])
+  @@map("activity_logs")
+}
