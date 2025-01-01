@@ -1,17 +1,26 @@
-'use client'
+"use client";
 
-import Link from 'next/link'
-import { usePathname } from 'next/navigation'
-import { cn } from '@/lib/utils'
-import { Button } from '@/components/ui/button'
-import { GraduationCap } from 'lucide-react'
-import { ModeToggle } from '@/components/mode-toggle'
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
+import { GraduationCap } from "lucide-react";
+import { ModeToggle } from "@/components/mode-toggle";
 
-export function Navigation() {
-  const pathname = usePathname()
+interface NavigationProps {
+  className?: string;
+}
+
+const Navigation: React.FC<NavigationProps> = ({ className }) => {
+  const pathname = usePathname();
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+    <header
+      className={cn(
+        "sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60",
+        className,
+      )}
+    >
       <div className="container flex h-14 items-center">
         <div className="mr-4 flex">
           <Link href="/" className="mr-6 flex items-center space-x-2">
@@ -23,7 +32,9 @@ export function Navigation() {
               href="/dashboard"
               className={cn(
                 "transition-colors hover:text-foreground/80",
-                pathname === '/dashboard' ? 'text-foreground' : 'text-foreground/60'
+                pathname === "/dashboard"
+                  ? "text-foreground"
+                  : "text-foreground/60",
               )}
             >
               Dashboard
@@ -32,7 +43,9 @@ export function Navigation() {
               href="/courses"
               className={cn(
                 "transition-colors hover:text-foreground/80",
-                pathname === '/courses' ? 'text-foreground' : 'text-foreground/60'
+                pathname === "/courses"
+                  ? "text-foreground"
+                  : "text-foreground/60",
               )}
             >
               Courses
@@ -47,5 +60,7 @@ export function Navigation() {
         </div>
       </div>
     </header>
-  )
-}
+  );
+};
+
+export default Navigation;
