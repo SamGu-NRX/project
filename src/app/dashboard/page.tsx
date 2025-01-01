@@ -57,14 +57,14 @@
 //       if (progress && sessionData) {
 //         const completedCount = progress.length
 //         const totalCount = sessionData.length
-//         const nextIncompleteSession = sessionData.find(session => 
+//         const nextIncompleteSession = sessionData.find(session =>
 //           !progress.some(p => p.session_id === session.id)
 //         )
 
 //         setCourseProgress({
 //           completed: completedCount,
 //           total: totalCount,
-//           nextSession: nextIncompleteSession 
+//           nextSession: nextIncompleteSession
 //             ? { title: nextIncompleteSession.title, id: nextIncompleteSession.id }
 //             : { title: 'All sessions completed!', id: '' }
 //         })
@@ -127,22 +127,20 @@
 // }
 
 // (Server Component Example)
-import { createClient } from '@/lib/supabase/server'
+import { createClient } from "@/lib/supabase/server";
 
 export default async function DashboardPage() {
-  const supabase = await createClient()
+  const supabase = await createClient();
   const {
     data: { user },
-  } = await supabase.auth.getUser()
+  } = await supabase.auth.getUser();
 
   // Now let's query our RLS-protected "users" table
   // If RLS says "id = auth.uid()", user will only get their row
-  const { data: userRows, error } = await supabase
-    .from('users')
-    .select('*')
+  const { data: userRows, error } = await supabase.from("users").select("*");
 
   if (error) {
-    return <p>Error: {error.message}</p>
+    return <p>Error: {error.message}</p>;
   }
 
   return (
@@ -150,5 +148,5 @@ export default async function DashboardPage() {
       <h1>Welcome, {user?.email}</h1>
       <pre>{JSON.stringify(userRows, null, 2)}</pre>
     </div>
-  )
+  );
 }

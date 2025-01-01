@@ -17,4 +17,3 @@ export const AmbientBackground: React.FC = () => (
     <div className="animate-drift-slow absolute -bottom-40 -left-40 h-96 w-96 rounded-full bg-blue-500/20 blur-3xl" />
   </div>
 );
-

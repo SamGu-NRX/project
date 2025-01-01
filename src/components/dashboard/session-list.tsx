@@ -1,12 +1,12 @@
-'use client'
+"use client";
 
-import { Session } from '@/lib/types/dashboard'
-import { Card } from '@/components/ui/card'
-import { CheckCircle2, Lock, Play } from 'lucide-react'
-import Link from 'next/link'
+import { Session } from "@/lib/types/dashboard";
+import { Card } from "@/components/ui/card";
+import { CheckCircle2, Lock, Play } from "lucide-react";
+import Link from "next/link";
 
 interface SessionListProps {
-  sessions: Session[]
+  sessions: Session[];
 }
 
 export function SessionList({ sessions }: SessionListProps) {
@@ -16,7 +16,7 @@ export function SessionList({ sessions }: SessionListProps) {
         <Card
           key={session.id}
           className={`p-4 transition-colors ${
-            session.isLocked ? 'opacity-50' : 'hover:bg-accent'
+            session.isLocked ? "opacity-50" : "hover:bg-accent"
           }`}
         >
           <div className="flex items-start gap-4">
@@ -29,7 +29,7 @@ export function SessionList({ sessions }: SessionListProps) {
                 <Play className="h-5 w-5 text-blue-500" />
               )}
             </div>
-            
+
             <div className="flex-1">
               {session.isLocked ? (
                 <div>
@@ -41,7 +41,7 @@ export function SessionList({ sessions }: SessionListProps) {
               ) : (
                 <Link href={`/sessions/${session.id}`} className="block">
                   <h4 className="font-medium">{session.title}</h4>
-                  <p className="text-sm text-muted-foreground line-clamp-2">
+                  <p className="line-clamp-2 text-sm text-muted-foreground">
                     {session.description}
                   </p>
                 </Link>
@@ -51,5 +51,5 @@ export function SessionList({ sessions }: SessionListProps) {
         </Card>
       ))}
     </div>
-  )
+  );
 }

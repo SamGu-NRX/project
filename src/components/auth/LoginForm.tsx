@@ -151,7 +151,7 @@ const LoginSection: React.FC<LoginSectionProps> = ({
   return (
     <section
       className={cn(
-        "relative flex w-full flex-col items-center justify-center mt-4 bg-[radial-gradient(circle_at_1px_1px,rgb(220,220,220)_1px,transparent_0)] bg-[size:40px_40px] p-4 dark:bg-[radial-gradient(circle_at_1px_1px,rgb(40,40,40)_1px,transparent_0)]",
+        "relative mt-4 flex w-full flex-col items-center justify-center bg-[radial-gradient(circle_at_1px_1px,rgb(220,220,220)_1px,transparent_0)] bg-[size:40px_40px] p-4 dark:bg-[radial-gradient(circle_at_1px_1px,rgb(40,40,40)_1px,transparent_0)]",
         containerClassName,
       )}
       style={{ minHeight: "calc(100vh - 56.5px - 16px)" }} // Adjust based on nav height + margin top 1 rem
