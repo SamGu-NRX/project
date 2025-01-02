@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Confirm Your Signup at LuminAI Bootcamps</title>
+    <style>
+        /* --- START OF UNIFIED STYLES --- */
+        :root {
+            --primary: #6366f1;
+            --secondary: #818cf8;
+            --accent: #4f46e5;
+            --warning: #fbbf24;
+            --text: #18181b;
+            --background: #ffffff;
+            --muted: #71717a;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f5;
+            color: var(--text);
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 40px auto;
+            padding: 32px;
+            background: var(--background);
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        .logo {
+            margin-bottom: 24px;
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--primary);
+        }
+
+        .content {
+            margin-bottom: 32px;
+        }
+
+        .verification-code {
+            font-family: monospace;
+            font-size: 32px;
+            letter-spacing: 4px;
+            text-align: center;
+            margin: 24px 0;
+            color: var(--primary);
+            background: #f8fafc;
+            padding: 16px;
+            border-radius: 6px;
+        }
+
+        .button {
+            display: inline-block;
+            width: 100%;
+            padding: 16px 24px;
+            background-color: var(--primary);
+            color: #ffffff;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: 500;
+            text-align: center;
+            margin: 16px 0;
+            box-sizing: border-box;
+        }
+
+        .button:hover {
+            background-color: var(--accent);
+        }
+
+        .footer {
+            margin-top: 32px;
+            padding-top: 16px;
+            border-top: 1px solid #e4e4e7;
+            font-size: 14px;
+            color: var(--muted);
+        }
+        /* --- END OF UNIFIED STYLES --- */
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="logo">
+            LuminAI Bootcamps
+        </div>
+
+        <div class="content">
+            <h1>Confirm Your New Account</h1>
+
+            <p>{{ if .Data.name }}Hey {{ .Data.name }},{{ else }}Hello there,{{ end }}</p>
+
+            <p>So, you’ve taken the leap and signed up for LuminAI Bootcamps—smart move. Before we turn over the keys to your brand-new AI kingdom, we need to confirm you’re not an imposter (or a superintelligent robot just passing by).</p>
+
+            <p>Ready to unlock your account? Click below and brace yourself for the cutting-edge wonders of AI-driven education:</p>
+
+            <a href="{{ .ConfirmationURL }}" class="button">Confirm My Account</a>
+
+            <p>Still prefer the old-school approach? Here’s your 6-digit code for manual entry. Pro tip: Don’t let your cat step on the keyboard halfway through.</p>
+
+            <div class="verification-code">{{ .Token }}</div>
+
+            <p>If you didn’t sign up (or you decided you prefer life in a cave without AI), feel free to ignore this email. No judgments—but we might shed a tear or two about your missed opportunity.</p>
+        </div>
+
+        <div class="footer">
+            <p>Need a digital hand to hold? Our <a href="{{ .SiteURL }}/support" style="color:#6366f1;text-decoration:underline;">support portal</a> is more reliable than a rubber duck and less messy than spilled coffee.</p>
+            <p>LuminAI Bootcamps<br>Where real humans do surprisingly futuristic stuff 🚀</p>
+
+            <p style="font-size: 12px; margin-top: 16px;">
+                This is an automated message to confirm your signup. If you didn’t ask for this, just ignore it and continue your day unbothered.
+            </p>
+        </div>
+    </div>
+</body>
+</html>
