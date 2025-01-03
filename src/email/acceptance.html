@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Welcome to LuminAI Bootcamps</title>
+    <style>
+        /* --- START OF UNIFIED STYLES --- */
+        :root {
+            --primary: #6366f1;
+            --secondary: #818cf8;
+            --accent: #4f46e5;
+            --warning: #fbbf24;
+            --text: #18181b;
+            --background: #ffffff;
+            --muted: #71717a;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f5;
+            color: var(--text);
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 40px auto;
+            padding: 32px;
+            background: var(--background);
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        .logo {
+            margin-bottom: 24px;
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--primary);
+        }
+
+        .content {
+            margin-bottom: 32px;
+        }
+
+        .cohort-info {
+            background: #f8fafc;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 24px 0;
+            border-left: 4px solid var(--accent);
+        }
+
+        .schedule-info {
+            background: #f8fafc;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 24px 0;
+            border-left: 4px solid var(--secondary);
+        }
+
+        .button {
+            display: inline-block;
+            width: 100%;
+            padding: 16px 24px;
+            background-color: var(--primary);
+            color: #ffffff;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: 500;
+            text-align: center;
+            margin: 16px 0;
+            box-sizing: border-box;
+        }
+
+        .button:hover {
+            background-color: var(--accent);
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: auto 1fr;
+            gap: 8px 16px;
+            margin: 16px 0;
+        }
+
+        .info-label {
+            color: var(--muted);
+            font-weight: 500;
+        }
+
+        .info-value {
+            color: var(--text);
+            font-weight: 600;
+        }
+
+        .verification-code {
+            font-family: monospace;
+            font-size: 32px;
+            letter-spacing: 4px;
+            text-align: center;
+            margin: 24px 0;
+            color: var(--primary);
+            background: #f8fafc;
+            padding: 16px;
+            border-radius: 6px;
+        }
+
+        .footer {
+            margin-top: 32px;
+            padding-top: 16px;
+            border-top: 1px solid #e4e4e7;
+            font-size: 14px;
+            color: var(--muted);
+        }
+        /* --- END OF UNIFIED STYLES --- */
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="logo">
+            LuminAI Bootcamps
+        </div>
+
+        <div class="content">
+
+            <h1>Welcome to LuminAI!</h1>
+
+            <p>{{ if .Data.name }}Hey {{ .Data.name }},{{ else }}Hey there,{{ end }}</p>
+
+            <p>Congratulations! Your application to LuminAI Bootcamp has been accepted. We were impressed by your potential and can't wait to have you join us in pushing the boundaries of AI.</p>
+
+            <div class="cohort-info">
+                <h2>Your Acceptance Details</h2>
+                <div class="info-grid">
+                    <span class="info-label">Cohort:</span>
+                    <span class="info-value">{{ if .Data.cohort }}{{ .Data.cohort }}{{ else }}To Be Assigned{{ end }}</span>
+
+                    <span class="info-label">Class Track:</span>
+                    <span class="info-value">{{ if .Data.class }}{{ .Data.class }}{{ else }}To Be Assigned{{ end }}</span>
+
+                    <span class="info-label">Start Date:</span>
+                    <span class="info-value">{{ if .Data.startDate }}{{ .Data.startDate }}{{ else }}To Be Announced{{ end }}</span>
+                </div>
+            </div>
+
+            <div class="schedule-info">
+                <h2>Class Schedule</h2>
+                <div class="info-grid">
+                    <span class="info-label">Days:</span>
+                    <span class="info-value">{{ if .Data.classDays }}{{ .Data.classDays }}{{ else }}Monday - Thursday{{ end }}</span>
+
+                    <span class="info-label">Time:</span>
+                    <span class="info-value">{{ if .Data.classTime }}{{ .Data.classTime }}{{ else }}7:00 PM - 10:00 PM EST{{ end }}</span>
+
+                    <span class="info-label">Duration:</span>
+                    <span class="info-value">{{ if .Data.duration }}{{ .Data.duration }}{{ else }}16 weeks{{ end }}</span>
+                </div>
+            </div>
+
+            <p>To kick things off, we need you to verify your email address. Don't worry, we're not collecting email addresses for our secret robot army (yet).</p>
+
+            <a href="{{ .ConfirmationURL }}" class="button">Verify Email & Access Portal</a>
+
+            <p>This link will expire in 24 hours, so don't leave us hanging! After verification, you'll get instant access to your class portal – your new home for the next few months. We suggest bookmarking it, unless you enjoy typing URLs for fun.</p>
+
+            <p><strong>Pro Tip:</strong> Show up to your first class with your IDE ready and your coffee stronger than your debugging skills. Trust us on this one. 😉</p>
+
+        </div>
+
+        <div class="footer">
+            <p>Questions? Concerns? Existential AI dilemmas? Our support team is ready for anything at <a href="{{ .SiteURL }}/support">support portal</a>.</p>
+            <p>LuminAI Bootcamps<br>Where "Hello World" is just the beginning 🚀</p>
+
+            <p style="font-size: 12px; margin-top: 16px;">
+                If you didn't create this account, please ignore this email or contact our support team.
+            </p>
+        </div>
+    </div>
+</body>
+</html>

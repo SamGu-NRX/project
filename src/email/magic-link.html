@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>One-Time Magic Link for LuminAI Bootcamps</title>
+    <style>
+        /* --- START OF UNIFIED STYLES --- */
+        :root {
+            --primary: #6366f1;
+            --secondary: #818cf8;
+            --accent: #4f46e5;
+            --warning: #fbbf24;
+            --text: #18181b;
+            --background: #ffffff;
+            --muted: #71717a;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f5;
+            color: var(--text);
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 40px auto;
+            padding: 32px;
+            background: var(--background);
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        .logo {
+            margin-bottom: 24px;
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--primary);
+        }
+
+        .content {
+            margin-bottom: 32px;
+        }
+
+        .verification-code {
+            font-family: monospace;
+            font-size: 32px;
+            letter-spacing: 4px;
+            text-align: center;
+            margin: 24px 0;
+            color: var(--primary);
+            background: #f8fafc;
+            padding: 16px;
+            border-radius: 6px;
+        }
+
+        .button {
+            display: inline-block;
+            width: 100%;
+            padding: 16px 24px;
+            background-color: var(--primary);
+            color: #ffffff;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: 500;
+            text-align: center;
+            margin: 16px 0;
+            box-sizing: border-box;
+        }
+
+        .button:hover {
+            background-color: var(--accent);
+        }
+
+        .footer {
+            margin-top: 32px;
+            padding-top: 16px;
+            border-top: 1px solid #e4e4e7;
+            font-size: 14px;
+            color: var(--muted);
+        }
+        /* --- END OF UNIFIED STYLES --- */
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="logo">
+            LuminAI Bootcamps
+        </div>
+
+        <div class="content">
+            <h1>Your One-Time Magic Link</h1>
+
+            <p>{{ if .Data.name }}Hey {{ .Data.name }},{{ else }}Hello there,{{ end }}</p>
+
+            <p>We heard you want swift and painless access to your LuminAI account—no password fuss required. We've got you covered! Below is your exclusive one-time link, valid for just a few precious minutes.</p>
+
+            <a href="{{ .ConfirmationURL }}" class="button">Use Magic Link</a>
+
+            <p>Prefer to type in a 6-digit code like a pro? We’ve got that too:</p>
+
+            <div class="verification-code">{{ .Token }}</div>
+
+            <p>Whether you click the magic link or use the code, you’ll be whisked into your account in no time. But remember, this link will self-destruct soon. (Okay, not literally, but it’ll stop working once time’s up.)</p>
+
+            <p>If you didn’t request this email, no worries! Simply ignore it—our magic is for invited guests only.</p>
+        </div>
+
+        <div class="footer">
+            <p>Questions? Head over to our <a href="{{ .SiteURL }}/support" style="color:#6366f1;text-decoration:underline;">support portal</a> before you learn the hard way that rubber ducks can’t answer complex debugging issues.</p>
+            <p>LuminAI Bootcamps<br>Your pass to hassle-free AI adventures ✨</p>
+
+            <p style="font-size: 12px; margin-top: 16px;">
+                This is an automated message for your one-time login request.
+            </p>
+        </div>
+    </div>
+</body>
+</html>

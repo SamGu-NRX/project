@@ -1,0 +1,255 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+enum Role {
+  student
+  teacher
+  admin
+}
+
+enum AssignmentType {
+  multiple_choice
+  file_upload
+  mixed
+}
+
+enum SubmissionStatus {
+  pending
+  graded
+  in_review
+}
+
+model User {
+  id              String   @id @default(uuid()) @db.Uuid
+  email           String   @unique
+  passwordHash    String?  // optional if using external Supabase Auth
+  role            Role
+  fullName        String
+  profileImageUrl String?
+  phoneNumber     String?
+  isActive        Boolean  @default(true)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  // RELATIONS
+  enrolledCourses     CourseEnrollment[]
+  submissions         Submission[]
+  sessionProgress     SessionProgress[]
+  certificates        Certificate[]
+  activityLogs        ActivityLog[]
+
+  @@map("users")
+}
+
+model Course {
+  id                String   @id @default(uuid()) @db.Uuid
+  title             String
+  description       String?
+  thumbnailImageUrl String?
+  startDate         DateTime?
+  endDate           DateTime?
+  isPublished       Boolean  @default(false)
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  // RELATIONS
+  enrollments    CourseEnrollment[]
+  sessions       Session[]
+  announcements  Announcement[]
+  certificates   Certificate[]
+
+  @@map("courses")
+}
+
+model CourseEnrollment {
+  id        String   @id @default(uuid()) @db.Uuid
+  userId    String   @db.Uuid
+  courseId  String   @db.Uuid
+  enrolledAt DateTime @default(now())
+  status    String   @default("active") // active, completed, dropped
+  progress  Float    @default(0) // Percentage of course completed
+
+  // RELATIONS
+  user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  course  Course  @relation(fields: [courseId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, courseId])
+  @@map("course_enrollments")
+}
+
+model Session {
+  id                   String   @id @default(uuid()) @db.Uuid
+  courseId             String   @db.Uuid
+  title                String
+  description          String?
+  videoUrl             String?
+  sequenceOrder        Int      @default(1)
+  isLockedByDefault    Boolean  @default(true)
+  durationMinutes      Int      @default(60)
+  createdAt            DateTime @default(now())
+  updatedAt            DateTime @updatedAt
+
+  // RELATIONS
+  course               Course          @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  assignments          Assignment[]
+  progressRecords      SessionProgress[]
+
+  @@map("sessions")
+}
+
+model SessionProgress {
+  id           String    @id @default(uuid()) @db.Uuid
+  studentId    String    @db.Uuid
+  sessionId    String    @db.Uuid
+  isCompleted  Boolean   @default(false)
+  completedAt  DateTime?
+  lastAccessedAt DateTime @default(now())
+
+  // RELATIONS
+  student      User      @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  session      Session   @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+
+  @@unique([studentId, sessionId])
+  @@map("session_progress")
+}
+
+model Assignment {
+  id              String          @id @default(uuid()) @db.Uuid
+  sessionId       String          @db.Uuid
+  assignmentType  AssignmentType
+  title           String
+  instructions    String?
+  dueDate         DateTime?
+  maxScore        Int             @default(100)
+  isPublished     Boolean         @default(false)
+  requiresReview  Boolean         @default(true)
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime        @updatedAt
+
+  // RELATIONS
+  session         Session         @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  submissions     Submission[]
+  questions       AssignmentQuestion[]
+
+  @@map("assignments")
+}
+
+model AssignmentQuestion {
+  id             String   @id @default(uuid()) @db.Uuid
+  assignmentId   String   @db.Uuid
+  questionText   String
+  questionOrder  Int      @default(1)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  // RELATIONS
+  assignment     Assignment               @relation(fields: [assignmentId], references: [id], onDelete: Cascade)
+  options        AssignmentQuestionOption[]
+  answers        SubmissionAnswer[]
+
+  @@map("assignment_questions")
+}
+
+model AssignmentQuestionOption {
+  id          String   @id @default(uuid()) @db.Uuid
+  questionId  String   @db.Uuid
+  optionText  String
+  isCorrect   Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // RELATIONS
+  question    AssignmentQuestion @relation(fields: [questionId], references: [id], onDelete: Cascade)
+  answers     SubmissionAnswer[]
+
+  @@map("assignment_question_options")
+}
+
+model Submission {
+  id              String           @id @default(uuid()) @db.Uuid
+  assignmentId    String          @db.Uuid
+  studentId       String          @db.Uuid
+  submittedAt     DateTime?
+  fileUrl         String?
+  status          SubmissionStatus @default(pending)
+  grade           Float?
+  feedback        String?
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
+
+  // RELATIONS
+  assignment      Assignment       @relation(fields: [assignmentId], references: [id], onDelete: Cascade)
+  student         User            @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  answers         SubmissionAnswer[]
+
+  @@map("submissions")
+}
+
+model SubmissionAnswer {
+  id               String   @id @default(uuid()) @db.Uuid
+  submissionId     String   @db.Uuid
+  questionId       String   @db.Uuid
+  selectedOptionId String?  @db.Uuid
+  scoreEarned      Float?
+
+  // RELATIONS
+  submission       Submission                 @relation(fields: [submissionId], references: [id], onDelete: Cascade)
+  question         AssignmentQuestion         @relation(fields: [questionId], references: [id], onDelete: Cascade)
+  selectedOption   AssignmentQuestionOption?  @relation(fields: [selectedOptionId], references: [id])
+
+  @@map("submission_answers")
+}
+
+model Certificate {
+  id                  String   @id @default(uuid()) @db.Uuid
+  studentId           String   @db.Uuid
+  courseId            String   @db.Uuid
+  certificateImageUrl String?
+  issuedAt            DateTime @default(now())
+  gradeAtCompletion   Float?
+  createdAt           DateTime @default(now())
+
+  // RELATIONS
+  student    User   @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  course     Course @relation(fields: [courseId], references: [id], onDelete: Cascade)
+
+  @@unique([studentId, courseId])
+  @@map("certificates")
+}
+
+model Announcement {
+  id         String   @id @default(uuid()) @db.Uuid
+  courseId   String   @db.Uuid
+  title      String
+  body       String
+  postedAt   DateTime @default(now())
+
+  // RELATIONS
+  course     Course   @relation(fields: [courseId], references: [id], onDelete: Cascade)
+
+  @@map("announcements")
+}
+
+model ActivityLog {
+  id          String   @id @default(uuid()) @db.Uuid
+  userId      String   @db.Uuid
+  actionType  String
+  details     String?
+  createdAt   DateTime @default(now())
+
+  // RELATIONS
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, createdAt])
+  @@map("activity_logs")
+}
