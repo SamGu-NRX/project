@@ -1,0 +1,534 @@
+[
+  {
+    "sequenceOrder": 1,
+    "title":
+      "Session 1: Introduction to Artificial Intelligence and Neural Networks",
+    "description":
+      "This session introduces the fundamentals of AI, including definitions, real-world applications, supervised vs. unsupervised learning, mathematical foundations, and a first look at basic neural network architectures.",
+    "objectives": [
+      "Define the scope of Artificial Intelligence and its real-world applications",
+      "Distinguish between supervised and unsupervised learning",
+      "Understand basic neural network architecture",
+      "Recall essential math concepts for AI (linear algebra, basic calculus)",
+      "Explain fundamental programming principles for AI (data types, control structures)"
+    ],
+    "videoUrl": "https://www.example.com/sessions/session-1/video.mp4",
+    "exitTicket": {
+      "questions": [
+        {
+          "questionType": "multiple-choice",
+          "questionText":
+            "Which of the following is NOT a type of machine learning?",
+          "options": [
+            "Supervised Learning",
+            "Unsupervised Learning",
+            "Reinforcement Learning",
+            "Partitioned Learning"
+          ],
+          "correctAnswer": 3
+        },
+        {
+          "questionType": "open-ended",
+          "questionText":
+            "Explain the difference between supervised and unsupervised learning in your own words."
+        },
+        {
+          "questionType": "fill-in-the-blank",
+          "questionText":
+            "A neural network typically consists of an input layer, one or more hidden layers, and an ________ layer."
+        },
+        {
+          "questionType": "true-false",
+          "questionText":
+            "True or False: Artificial General Intelligence (AGI) is already widely available and in use today.",
+          "options": ["True", "False"],
+          "correctAnswer": 1
+        },
+        {
+          "questionType": "multiple-choice",
+          "questionText":
+            "Which mathematical operation is most often used to combine inputs and weights in a fully connected layer?",
+          "options": [
+            "Element-wise addition",
+            "Matrix multiplication",
+            "Concatenation",
+            "Bitwise XOR"
+          ],
+          "correctAnswer": 1
+        },
+        {
+          "questionType": "scenario-based",
+          "questionText":
+            "You have a dataset of labeled images for a digit-classification task (0–9). Outline how you would build a simple neural network to classify these images, from data preprocessing to final evaluation."
+        },
+        {
+          "questionType": "open-ended",
+          "questionText":
+            "Name two ways in which strong programming fundamentals (e.g., control structures, functions, modules) support AI development."
+        }
+      ]
+    },
+    "resources": [
+      {
+        "title": "But what is a neural network?",
+        "type": "video",
+        "link": "https://www.youtube.com/watch?v=aircAruvnKk"
+      },
+      {
+        "title": "Essence of linear algebra",
+        "type": "video",
+        "link": "https://www.youtube.com/playlist?list=PLZHQObOWTQDMsr9KDpYP9z9kMJp13Zz83"
+      },
+      {
+        "title": "Introduction to Machine Learning for Beginners",
+        "type": "video",
+        "link": "https://www.youtube.com/watch?v=6mSx_KJxcHI"
+      },
+      {
+        "title": "Mathematics for Machine Learning: Linear Algebra",
+        "type": "course",
+        "link": "https://www.coursera.org/learn/linear-algebra-machine-learning"
+      }
+    ]
+  },
+  {
+    "sequenceOrder": 2,
+    "title": "Session 2: Convolutional Neural Networks and Computer Vision",
+    "description":
+      "This session dives into CNN architectures, exploring how convolutional layers, pooling, transfer learning, feature extraction, and fundamental computer vision techniques power modern image-based tasks.",
+    "objectives": [
+      "Explain the role of convolutional layers in feature extraction",
+      "Understand pooling, activation functions, and batch normalization",
+      "Describe how transfer learning can accelerate vision model training",
+      "Identify common computer vision tasks (image classification, segmentation, detection)",
+      "Understand basic data augmentation techniques for images"
+    ],
+    "videoUrl": "https://www.example.com/sessions/session-2/video.mp4",
+    "exitTicket": {
+      "questions": [
+        {
+          "questionType": "multiple-choice",
+          "questionText":
+            "Which layer in a CNN is primarily responsible for reducing spatial dimensions?",
+          "options": [
+            "Convolutional Layer",
+            "Pooling Layer",
+            "Fully Connected Layer",
+            "Dropout Layer"
+          ],
+          "correctAnswer": 1
+        },
+        {
+          "questionType": "open-ended",
+          "questionText":
+            "In your own words, explain why feature extraction is critical in computer vision."
+        },
+        {
+          "questionType": "true-false",
+          "questionText":
+            "True or False: Transfer learning involves training a model from scratch on a large dataset before fine-tuning on a smaller, specialized dataset.",
+          "options": ["True", "False"],
+          "correctAnswer": 0
+        },
+        {
+          "questionType": "fill-in-the-blank",
+          "questionText":
+            "________ functions introduce non-linearity into CNNs, allowing them to learn complex patterns."
+        },
+        {
+          "questionType": "multiple-choice",
+          "questionText":
+            "Which of the following is NOT a common data augmentation technique for images?",
+          "options": [
+            "Random rotation",
+            "Color jitter",
+            "Horizontal flip",
+            "Bitwise XOR of two images"
+          ],
+          "correctAnswer": 3
+        },
+        {
+          "questionType": "scenario-based",
+          "questionText":
+            "You want to classify medical images (X-rays). Outline a procedure to implement transfer learning using a pre-trained CNN. Highlight the steps for data preparation, model selection, and validation."
+        },
+        {
+          "questionType": "open-ended",
+          "questionText":
+            "Explain how pooling layers help prevent overfitting in CNNs."
+        }
+      ]
+    },
+    "resources": [
+      {
+        "title": "Convolutional Neural Networks (CNNs) Explained",
+        "type": "video",
+        "link": "https://www.youtube.com/watch?v=YRhxdVk_sIs"
+      },
+      {
+        "title": "PyTorch Documentation",
+        "type": "website",
+        "link": "https://pytorch.org/docs/stable/index.html"
+      },
+      {
+        "title": "Computer Vision Tutorial",
+        "type": "website",
+        "link": "https://www.geeksforgeeks.org/computer-vision/"
+      }
+    ]
+  },
+  {
+    "sequenceOrder": 3,
+    "title": "Session 3: Object Detection with YOLOv8",
+    "description":
+      "Learn how YOLOv8 detects and labels objects in real time, covering anchor-free detection, multi-scale feature fusion, evaluation metrics, and custom dataset training for high-accuracy results.",
+    "objectives": [
+      "Understand the fundamentals of object detection",
+      "Explain YOLOv8's anchor-free architecture",
+      "Train and fine-tune YOLOv8 on a custom dataset",
+      "Discuss evaluation metrics such as mAP and IoU",
+      "Implement real-time object detection in a practical setting"
+    ],
+    "videoUrl": "https://www.example.com/sessions/session-3/video.mp4",
+    "exitTicket": {
+      "questions": [
+        {
+          "questionType": "multiple-choice",
+          "questionText":
+            "Which metric is commonly used to evaluate object detection performance?",
+          "options": [
+            "Mean Absolute Error (MAE)",
+            "Accuracy",
+            "Mean Average Precision (mAP)",
+            "Cross Entropy Loss"
+          ],
+          "correctAnswer": 2
+        },
+        {
+          "questionType": "true-false",
+          "questionText":
+            "True or False: YOLOv8 relies on anchor boxes to detect and classify objects.",
+          "options": ["True", "False"],
+          "correctAnswer": 1
+        },
+        {
+          "questionType": "open-ended",
+          "questionText":
+            "Describe a real-world application where object detection could significantly improve efficiency or safety."
+        },
+        {
+          "questionType": "fill-in-the-blank",
+          "questionText": "YOLO stands for 'You Only Look ________'."
+        },
+        {
+          "questionType": "multiple-choice",
+          "questionText":
+            "Which of the following best describes IoU (Intersection over Union)?",
+          "options": [
+            "A method for combining bounding boxes",
+            "A ratio comparing the overlap of predicted and ground-truth boxes",
+            "A technique to rotate bounding boxes",
+            "A way to measure activation in convolutional layers"
+          ],
+          "correctAnswer": 1
+        },
+        {
+          "questionType": "open-ended",
+          "questionText":
+            "What are some key advantages of anchor-free detection compared to anchor-based methods?"
+        },
+        {
+          "questionType": "scenario-based",
+          "questionText":
+            "You need to detect defects on a manufacturing line in real time using YOLOv8. Outline how you would integrate the model into a production system, including data flow, model updates, and performance monitoring."
+        }
+      ]
+    },
+    "resources": [
+      {
+        "title": "YOLOv8 Documentation",
+        "type": "website",
+        "link": "https://docs.ultralytics.com/"
+      },
+      {
+        "title": "Object Detection Techniques Explained",
+        "type": "video",
+        "link": "https://www.youtube.com/watch?v=wiZG28esvtM"
+      },
+      {
+        "title": "OpenCV Tutorial",
+        "type": "website",
+        "link": "https://docs.opencv.org/4.x/d6/d00/tutorial_py_root.html"
+      }
+    ]
+  },
+  {
+    "sequenceOrder": 4,
+    "title": "Session 4: Audio Classification and Processing",
+    "description":
+      "Discover how to handle and preprocess audio data, extract features (Fourier transforms, Mel Spectrograms), and build classification models capable of recognizing environmental sounds or speech commands.",
+    "objectives": [
+      "Explain how audio signals are digitized and represented",
+      "Perform feature extraction using transforms (Fourier, Mel Spectrogram)",
+      "Build and evaluate deep learning models for audio classification",
+      "Discuss real-time audio classification challenges",
+      "Identify common pitfalls in handling imbalanced audio datasets"
+    ],
+    "videoUrl": "https://www.example.com/sessions/session-4/video.mp4",
+    "exitTicket": {
+      "questions": [
+        {
+          "questionType": "multiple-choice",
+          "questionText":
+            "Which library is commonly used in Python for audio processing?",
+          "options": ["librosa", "matplotlib", "requests", "scikit-learn"],
+          "correctAnswer": 0
+        },
+        {
+          "questionType": "open-ended",
+          "questionText":
+            "Explain the difference between time-domain and frequency-domain representations in audio."
+        },
+        {
+          "questionType": "true-false",
+          "questionText":
+            "True or False: A Mel Spectrogram focuses on uniformly spaced frequencies, just like a standard spectrogram.",
+          "options": ["True", "False"],
+          "correctAnswer": 1
+        },
+        {
+          "questionType": "fill-in-the-blank",
+          "questionText":
+            "________ is a popular Python library that simplifies audio feature extraction and analysis, used frequently in music information retrieval."
+        },
+        {
+          "questionType": "multiple-choice",
+          "questionText":
+            "Which method can help address imbalanced audio datasets?",
+          "options": [
+            "Collecting more data for underrepresented classes",
+            "Ignoring the minority classes entirely",
+            "Lowering the sampling rate for the minority class",
+            "Using identical audio clips for all classes"
+          ],
+          "correctAnswer": 0
+        },
+        {
+          "questionType": "open-ended",
+          "questionText":
+            "Name two real-life applications of audio classification and how they benefit society or businesses."
+        },
+        {
+          "questionType": "scenario-based",
+          "questionText":
+            "You are building a voice command system for a smart home device. Outline how you would handle data collection, feature engineering, model training, and real-time inference to ensure accurate command recognition."
+        }
+      ]
+    },
+    "resources": [
+      {
+        "title": "Visual Introduction to Fourier Transforms",
+        "type": "video",
+        "link": "https://www.youtube.com/watch?v=spUNpyF58BY"
+      },
+      {
+        "title": "Librosa Documentation",
+        "type": "website",
+        "link": "https://librosa.org/doc/latest/index.html"
+      },
+      {
+        "title": "Audio Classification Using Deep Learning",
+        "type": "website",
+        "link": "https://www.tensorflow.org/tutorials/audio/simple_audio"
+      }
+    ]
+  },
+  {
+    "sequenceOrder": 5,
+    "title":
+      "Session 5: Large Language Models (LLMs) and Retrieval-Augmented Generation (RAG)",
+    "description":
+      "Explore the architecture and capabilities of advanced LLMs, learn how to integrate external knowledge bases via Retrieval-Augmented Generation, and discuss ethical considerations of deploying large-scale language models.",
+    "objectives": [
+      "Understand transformer-based language model architecture",
+      "Explain the concept of Retrieval-Augmented Generation",
+      "Build a simple RAG pipeline for question answering",
+      "Explore ethical considerations (bias, hallucinations) in LLMs",
+      "Experiment with fine-tuning techniques for domain-specific tasks"
+    ],
+    "videoUrl": "https://www.example.com/sessions/session-5/video.mp4",
+    "exitTicket": {
+      "questions": [
+        {
+          "questionType": "multiple-choice",
+          "questionText":
+            "Which component is essential for Retrieval-Augmented Generation?",
+          "options": [
+            "Batch Normalization",
+            "Vector Database or Index",
+            "2D Convolutional Layer",
+            "Hybrid Loss Function"
+          ],
+          "correctAnswer": 1
+        },
+        {
+          "questionType": "open-ended",
+          "questionText":
+            "Describe a real-world scenario where an LLM combined with a retrieval mechanism would be invaluable."
+        },
+        {
+          "questionType": "true-false",
+          "questionText":
+            "True or False: Prompt engineering is unnecessary if you have a sufficiently large pre-trained language model.",
+          "options": ["True", "False"],
+          "correctAnswer": 1
+        },
+        {
+          "questionType": "fill-in-the-blank",
+          "questionText":
+            "A common vector database used in RAG pipelines is ________."
+        },
+        {
+          "questionType": "multiple-choice",
+          "questionText":
+            "Which of the following is an example of an ethical concern in LLMs?",
+          "options": [
+            "Inference speed",
+            "Biased language generation",
+            "Model conversion to ONNX",
+            "Memory usage for training"
+          ],
+          "correctAnswer": 1
+        },
+        {
+          "questionType": "scenario-based",
+          "questionText":
+            "You are building a chatbot that provides medical advice. How would you integrate retrieval-augmented generation to ensure the bot references accurate medical documents, and how would you mitigate ethical risks like misinformation?"
+        },
+        {
+          "questionType": "open-ended",
+          "questionText":
+            "Explain how fine-tuning a pre-trained LLM differs from training an LLM from scratch."
+        }
+      ]
+    },
+    "resources": [
+      {
+        "title": "But what is a GPT?",
+        "type": "video",
+        "link": "https://www.youtube.com/watch?v=Ilg3gGewQ5U"
+      },
+      {
+        "title": "Hugging Face Transformers Documentation",
+        "type": "website",
+        "link": "https://huggingface.co/docs/transformers"
+      },
+      {
+        "title": "LangChain Documentation",
+        "type": "website",
+        "link": "https://python.langchain.com/en/latest/"
+      },
+      {
+        "title": "Building RAG Systems",
+        "type": "video",
+        "link": "https://example.com/rag-systems"
+      },
+      {
+        "title": "Ethics in AI and Language Models",
+        "type": "website",
+        "link": "https://example.com/ai-ethics"
+      }
+    ]
+  },
+  {
+    "sequenceOrder": 6,
+    "title": "Session 6: Project Mentorship and Final Presentations",
+    "description":
+      "Consolidate everything learned so far into a final capstone project. This session includes personalized mentorship, showcasing solutions, and peer feedback to refine ideas for real-world impact. We also touch on advanced AI techniques (like ensemble methods, XAI) and best practices for presenting technical work.",
+    "objectives": [
+      "Apply AI techniques to solve a real-world problem",
+      "Refine project scope and deliverables through mentorship",
+      "Present and demonstrate AI solutions to peers and stakeholders",
+      "Explore advanced AI concepts like ensemble methods and explainable AI",
+      "Practice effective communication and Q&A handling during presentations"
+    ],
+    "videoUrl": "https://www.example.com/sessions/session-6/video.mp4",
+    "exitTicket": {
+      "questions": [
+        {
+          "questionType": "multiple-choice",
+          "questionText":
+            "Which of the following is a best practice for AI project presentations?",
+          "options": [
+            "Only discuss the final results with no context",
+            "Provide a clear problem statement and solution approach",
+            "Use as many technical acronyms as possible",
+            "Skip audience Q&A to save time"
+          ],
+          "correctAnswer": 1
+        },
+        {
+          "questionType": "open-ended",
+          "questionText":
+            "Reflect on a major challenge you faced during your capstone project and how you overcame it."
+        },
+        {
+          "questionType": "true-false",
+          "questionText":
+            "True or False: Providing visual aids such as charts or demos can help non-technical stakeholders grasp complex AI concepts.",
+          "options": ["True", "False"],
+          "correctAnswer": 0
+        },
+        {
+          "questionType": "fill-in-the-blank",
+          "questionText":
+            "A well-structured ________ ensures that your AI project’s methodology is transparent and reproducible."
+        },
+        {
+          "questionType": "multiple-choice",
+          "questionText":
+            "When planning your next steps after the BootCamp, which option is NOT recommended?",
+          "options": [
+            "Joining AI communities and meetups",
+            "Continuing education or advanced certifications",
+            "Deleting your project repositories to start fresh",
+            "Seeking real-world problems to solve"
+          ],
+          "correctAnswer": 2
+        },
+        {
+          "questionType": "scenario-based",
+          "questionText":
+            "You are presenting a deep learning model that uses ensemble methods and XAI (Explainable AI) techniques. Outline how you would demonstrate the model’s performance and explainability to a non-technical panel."
+        },
+        {
+          "questionType": "open-ended",
+          "questionText":
+            "Name one advantage and one drawback of using ensemble methods in your final capstone project."
+        }
+      ]
+    },
+    "resources": [
+      {
+        "title": "Effective Technical Presentations",
+        "type": "video",
+        "link": "https://www.youtube.com/watch?v=O5xeyoRL95U"
+      },
+      {
+        "title": "AI Project Management Best Practices",
+        "type": "article",
+        "link": "https://www.forbes.com/sites/forbestechcouncil/2023/01/16/eight-best-practices-for-effective-ai-project-management/"
+      },
+      {
+        "title": "GitHub Student Developer Pack",
+        "type": "website",
+        "link": "https://education.github.com/pack"
+      },
+      {
+        "title": "Explainable AI (XAI) and Ensemble Methods",
+        "type": "video",
+        "link": "https://www.youtube.com/watch?v=Zr83HjFCZ9E"
+      }
+    ]
+  }
+]

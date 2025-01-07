@@ -89,8 +89,13 @@ model Session {
   courseId             String   @db.Uuid
   title                String
   description          String?
+  objectives           String[]
   videoUrl             String?
+  exitTicket           ExitTicket?
+  resources            Resource[]
   sequenceOrder        Int      @default(1)
+
+
   isLockedByDefault    Boolean  @default(true)
   durationMinutes      Int      @default(60)
   createdAt            DateTime @default(now())
@@ -102,6 +107,26 @@ model Session {
   progressRecords      SessionProgress[]
 
   @@map("sessions")
+}
+
+model ExitTicketQuestion {
+  id            Int       @id @default(autoincrement())
+  exitTicket    ExitTicket @relation(fields: [exitTicketId], references: [id])
+  exitTicketId  Int
+  questionType  String
+  questionText  String
+  options       String[]  // Nullable array for multiple-choice, true-false questions
+  correctAnswer Int?      // Nullable integer for correct answer index
+}
+
+
+model Resource {
+  id        Int      @id @default(autoincrement())
+  session   Session  @relation(fields: [sessionId], references: [id])
+  sessionId String
+  title     String
+  type      String
+  link      String
 }
 
 model SessionProgress {
@@ -120,6 +145,12 @@ model SessionProgress {
   @@map("session_progress")
 }
 
+model ExitTicket {
+  id         Int       @id @default(autoincrement())
+  session    Session   @relation(fields: [sessionId], references: [id])
+  sessionId  String    @unique
+  questions  ExitTicketQuestion[]
+}
 model Assignment {
   id              String          @id @default(uuid()) @db.Uuid
   sessionId       String          @db.Uuid
