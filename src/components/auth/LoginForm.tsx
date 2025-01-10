@@ -118,7 +118,7 @@ function LoginForm({
           </CardContent>
 
           <CardFooter className="flex flex-col space-y-4 md:mt-3">
-            <SubmitButton loading={loading} mode="register" />
+            <SubmitButton loading={loading} mode="login" />
             <OAuthSection handleOAuthClick={handleOAuth} />
             <p className="text-center text-sm text-muted-foreground">
               Don't have an account yet?{" "}

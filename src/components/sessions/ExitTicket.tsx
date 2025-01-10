@@ -33,7 +33,7 @@ export function ExitTicket({ questions, onComplete }: ExitTicketProps) {
 
     questions.forEach((question) => {
       const selectedOption = question.options.find(
-        (opt) => opt.id === answers[question.id]
+        (opt) => opt.id === answers[question.id],
       );
       if (selectedOption?.isCorrect) {
         correctAnswers++;
@@ -105,9 +105,7 @@ export function ExitTicket({ questions, onComplete }: ExitTicketProps) {
 
         {submitted && (
           <div className="rounded-lg bg-muted p-4 text-center">
-            <p className="text-lg font-medium">
-              Score: {score.toFixed(0)}%
-            </p>
+            <p className="text-lg font-medium">Score: {score.toFixed(0)}%</p>
             <p className="text-sm text-muted-foreground">
               {score >= 70
                 ? "Great job! You can now proceed to the next section."

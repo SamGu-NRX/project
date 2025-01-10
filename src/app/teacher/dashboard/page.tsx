@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+
 import { createClient } from "@/lib/supabase/client";
 import { useRouter } from "next/navigation";
 import { TeacherDashboardHeader } from "@/components/teacher/TeacherDashboardHeader";
@@ -18,7 +19,7 @@ export default function TeacherDashboardPage() {
   useEffect(() => {
     const loadTeacherDashboard = async () => {
       const { data: { user } } = await supabase.auth.getUser();
-      
+
       if (!user) {
         router.push("/login");
         return;
@@ -67,7 +68,7 @@ export default function TeacherDashboardPage() {
   return (
     <div className="min-h-screen bg-background">
       <TeacherDashboardHeader />
-      
+
       <main className="container mx-auto p-6 space-y-6">
         <TeacherStats courseData={courseData} />
         <CourseOverview courseData={courseData} />

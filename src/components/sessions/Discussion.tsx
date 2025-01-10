@@ -32,7 +32,11 @@ interface DiscussionProps {
   isLocked?: boolean;
 }
 
-export function Discussion({ posts, onPost, isLocked = false }: DiscussionProps) {
+export function Discussion({
+  posts,
+  onPost,
+  isLocked = false,
+}: DiscussionProps) {
   const [newPost, setNewPost] = React.useState("");
   const [replyingTo, setReplyingTo] = React.useState<string | null>(null);
   const [replyContent, setReplyContent] = React.useState("");
