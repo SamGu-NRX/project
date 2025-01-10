@@ -1,10 +1,15 @@
 // Dashboard types
+import { AssignmentType, SubmissionStatus, AssignmentStatus } from "@prisma/client";
+
+// processing if something is todo server-side, not storing in DB
+// if an assignment is yet to be done, it is TODO
+// currently, every assignment is a TODO --> URGENT FIX
 export interface TodoItem {
   id: string;
   title: string;
   dueDate: string;
   type: "assignment" | "session";
-  status: "pending" | "completed" | "overdue";
+  status: AssignmentStatus
 }
 
 export interface CourseProgress {
@@ -29,7 +34,7 @@ export interface Assignment {
   id: string;
   title: string;
   dueDate: string;
-  type: "multiple_choice" | "file_upload" | "mixed";
-  status: "draft" | "submitted" | "graded" | "returned";
+  type: AssignmentType;
+  status: SubmissionStatus;
   grade?: number;
 }

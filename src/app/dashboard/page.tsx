@@ -1,145 +1,106 @@
-import { useEffect, useState } from "react";
 import { createClient } from "@/lib/supabase/server";
-import { CourseProgress, Session } from "@/lib/types/dashboard";
-import { TodoList } from "@/components/dashboard/todo-list";
-import { TodoItem } from "@/lib/types/dashboard";
+import { redirect } from "next/navigation";
+
 import { CourseProgressCard } from "@/components/dashboard/course-progress";
 import { SessionList } from "@/components/dashboard/session-list";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Skeleton } from "@/components/ui/skeleton";
+import { TodoList } from "@/components/dashboard/todo-list";
+
 import { Card } from "@/components/ui/card";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
-import { useRouter } from "next/navigation";
 import { GraduationCap } from "lucide-react";
 
 export default async function DashboardPage() {
-  const [loading, setLoading] = useState(true);
-  const [todoItems, setTodoItems] = useState<TodoItem[]>([]);
-  const [courseProgress, setCourseProgress] = useState<CourseProgress>({
+  const supabase = await createClient();
+
+  // 1) Check auth on the server
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (!user) {
+    redirect("/login");
+  }
+
+  // 2) Fetch data from Supabase
+  const { data: assignments } = await supabase
+    .from("assignments")
+    .select(
+      `
+      id,
+      title,
+      dueDate,
+      assignmentType,
+      submissions (
+        status
+      )
+    `,
+    )
+    .order("dueDate", { ascending: true })
+    .limit(5);
+
+  const { data: progress } = await supabase
+    .from("session_progress")
+    .select("sessionId")
+    .eq("studentId", user.id);
+
+  const { data: sessionData } = await supabase
+    .from("sessions")
+    .select("*")
+    .order("sequenceOrder", { ascending: true });
+
+  // 3) Transform data for UI
+  // -- Prepare Todo Items
+  const todoItems =
+    assignments?.map((assignment) => ({
+      id: assignment.id,
+      title: assignment.title,
+      dueDate: assignment.dueDate,
+      type: "assignment",
+      status: assignment.submissions?.[0]?.status || "pending",
+    })) || [];
+
+  // -- Prepare course progress
+  let courseProgress = {
     completed: 0,
     total: 0,
     nextSession: { title: "", id: "" },
-  });
-  const [sessions, setSessions] = useState<Session[]>([]);
-  const router = useRouter();
+  };
 
-  useEffect(() => {
-    const loadDashboardData = async () => {
-      const supabase = await createClient();
+  // -- Prepare sessions
+  let sessions = [];
 
-      const { data: { user } } = await supabase.auth.getUser();
-      if (!user) {
-        router.push("/login");
-        return;
-      }
+  if (progress && sessionData) {
+    const completedCount = progress.length;
+    const totalCount = sessionData.length;
+    const nextIncompleteSession = sessionData.find(
+      (session) => !progress.some((p) => p.sessionId === session.id),
+    );
 
-      try {
-        // Fetch todo items (upcoming assignments and sessions)
-        const { data: assignments } = await supabase
-          .from("assignments")
-          .select(
-            `
-            id,
-            title,
-            dueDate,
-            assignmentType,
-            submissions (
-              status
-            )
-          `,
-          )
-          .order("dueDate", { ascending: true })
-          .limit(5);
-
-        // Fetch course progress
-        const { data: progress } = await supabase
-          .from("session_progress")
-          .select("sessionId")
-          .eq("studentId", user.id);
-
-        // Fetch sessions
-        const { data: sessionData } = await supabase
-          .from("sessions")
-          .select("*")
-          .order("sequenceOrder", { ascending: true });
-
-        if (assignments) {
-          setTodoItems(
-            assignments.map((assignment) => ({
-              id: assignment.id,
-              title: assignment.title,
-              dueDate: assignment.dueDate,
-              type: "assignment",
-              status: assignment.submissions?.[0]?.status || "pending",
-            })),
-          );
-        }
-
-        if (progress && sessionData) {
-          const completedCount = progress.length;
-          const totalCount = sessionData.length;
-          const nextIncompleteSession = sessionData.find(
-            (session) => !progress.some((p) => p.sessionId === session.id),
-          );
-
-          setCourseProgress({
-            completed: completedCount,
-            total: totalCount,
-            nextSession: nextIncompleteSession
-              ? {
-                  title: nextIncompleteSession.title,
-                  id: nextIncompleteSession.id,
-                }
-              : { title: "All sessions completed!", id: "" },
-          });
-
-          setSessions(
-            sessionData.map((session, index) => ({
-              id: session.id,
-              title: session.title,
-              description: session.description || "",
-              videoUrl: session.videoUrl,
-              isCompleted: progress.some((p) => p.sessionId === session.id),
-              isLocked:
-                index > 0 &&
-                !progress.some(
-                  (p) => p.sessionId === sessionData[index - 1].id,
-                ),
-            })),
-          );
-
-          // After fetching assignments
-          console.log("assignments:", assignments); // See if it's empty
-
-          // After fetching progress
-          console.log("session progress:", progress);
-
-          // After fetching sessions
-          console.log("session data:", sessionData);
-        }
-      } catch (error) {
-        console.error("Error loading dashboard data:", error);
-      } finally {
-        setLoading(false);
-      }
+    courseProgress = {
+      completed: completedCount,
+      total: totalCount,
+      nextSession: nextIncompleteSession
+        ? {
+            title: nextIncompleteSession.title,
+            id: nextIncompleteSession.id,
+          }
+        : { title: "All sessions completed!", id: "" },
     };
 
-    loadDashboardData();
-  }, []);
-
-  if (loading) {
-    return (
-      <div className="container mx-auto space-y-6 p-6">
-        <Skeleton className="h-12 w-[250px]" />
-        <div className="grid gap-6 md:grid-cols-2">
-          {[1, 2].map((i) => (
-            <Skeleton key={i} className="h-[200px]" />
-          ))}
-        </div>
-      </div>
-    );
+    sessions = sessionData.map((session, index) => ({
+      id: session.id,
+      title: session.title,
+      description: session.description || "",
+      videoUrl: session.videoUrl,
+      isCompleted: progress.some((p) => p.sessionId === session.id),
+      isLocked:
+        index > 0 &&
+        !progress.some((p) => p.sessionId === sessionData[index - 1].id),
+    }));
   }
 
+  // 4) Return final UI
   return (
     <div className="container mx-auto p-6">
       <div className="mb-8 flex items-center justify-between">
